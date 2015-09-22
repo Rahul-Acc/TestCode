@@ -1,0 +1,62 @@
+<html>
+	<head>
+		<script src="lib/ext-all-debug.js"></script>
+		<link rel="stylesheet" href="lib/theme-neptune-all.css">
+		<style>
+			.message{
+				color : red;
+			}
+		</style>
+		<script>
+		function loginButtonClicked(){
+			var countries = [];
+			countries["India"] = "New Delhi";
+			countries["USA"] = "Washington DC";
+			countries["UK"] = "London";
+			var _countryName = Ext.getCmp("countryName");
+			var messageLabel = Ext.getCmp("messagelabel");
+			//alert(_countryName.getValue());
+			for(var key in countries){
+
+				//console.log(key + " : " + countries[key]);
+				if (_countryName.getValue() == key)
+				{
+					//alert("MATCH found, Capital is  " + countries[key]);
+					messageLabel.setHtml("MATCH found, Capital is  " + countries[key]);
+					break;
+				}
+				else{messageLabel.setHtml("No Match found, try again!");}
+				}
+
+			//alert(_countryName.getValue());
+		}
+		Ext.application({
+			name : "Lab01",
+			launch : function(){
+				Ext.create("Ext.panel.Panel",{
+					title : "Find Capital",
+					items : [
+						Ext.create("Ext.form.field.Text",{
+							fieldLabel : "Country name",
+							id : "countryName"
+						}),	
+						Ext.create("Ext.button.Button",{
+							text : "Try",
+							id : "loginbutton",
+							listeners : {
+								click : loginButtonClicked
+							}
+						}),									
+						Ext.create("Ext.form.Label",{
+							id : "messagelabel",
+							html : "",
+							cls : "message"
+						})		
+					],
+					renderTo : Ext.getBody()
+				});
+			}
+		});
+		</script>
+	</head>	
+</html>
