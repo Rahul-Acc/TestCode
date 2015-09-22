@@ -1,0 +1,62 @@
+<html>
+	<head>
+		<script src="lib/ext-all-debug.js"></script>
+		<link rel="stylesheet" href="lib/theme-neptune-all.css">
+		<style>
+			.message{
+				color : red;
+			}
+		</style>
+		<script>
+		function loginButtonClicked(){
+			var x = Ext.Number.randomInt(1, 10000);
+			alert(x);
+			var myNum = Ext.getCmp("myNum");
+			//alert(myNum.getValue());
+			//var passwordText = Ext.getCmp("password");
+			var messageLabel = Ext.getCmp("messagelabel");
+			if(myNum.getValue() == x){
+					messageLabel.setHtml("Bulls eye...!!");
+					//userNameText.disable();
+					//passwordText.disable();
+					//Ext.getCmp("loginbutton").disable();
+			}
+			if(myNum.getValue() < x){
+					messageLabel.setHtml("Aim higher...!!");
+			}
+				if(myNum.getValue() > x){
+					messageLabel.setHtml("Aim lower...!!");
+			}
+			else
+				messageLabel.setHtml("Try again");
+		}
+		Ext.application({
+			name : "Lab01",
+			launch : function(){
+				Ext.create("Ext.panel.Panel",{
+					title : "Random luck..",
+					items : [
+						Ext.create("Ext.form.field.Text",{
+							fieldLabel : "Guess a number...",
+							id : "myNum"
+						}),	
+						Ext.create("Ext.button.Button",{
+							text : "Try",
+							id : "loginbutton",
+							listeners : {
+								click : loginButtonClicked
+							}
+						}),									
+						Ext.create("Ext.form.Label",{
+							id : "messagelabel",
+							html : "",
+							cls : "message"
+						})		
+					],
+					renderTo : Ext.getBody()
+				});
+			}
+		});
+		</script>
+	</head>	
+</html>

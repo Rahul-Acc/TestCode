@@ -1,0 +1,59 @@
+<html>
+	<head>
+		<script src="lib/ext-all-debug.js"></script>
+		<link rel="stylesheet" href="lib/theme-neptune-all.css">
+		<style>
+			.message{
+				color : red;
+			}
+		</style>
+		<script>
+		function loginButtonClicked(){
+			var myText = Ext.getCmp("mytext");
+			alert(myText);
+			//var messageLabel = Ext.getCmp("messagelabel");
+
+			//var x = Ext.Number.randomInt(1, 10000);
+			//alert(x);
+
+			
+			/*if(userNameText.getValue() == "admin" &&
+				passwordText.getValue() == "admin"){
+					messageLabel.setHtml("Logging in...");
+					userNameText.disable();
+					passwordText.disable();
+					Ext.getCmp("loginbutton").disable();
+			}
+			else
+				messageLabel.setHtml("Invalid Credentials");*/
+		}
+		Ext.application({
+			name : "Lab01",
+			launch : function(){
+				Ext.create("Ext.panel.Panel",{
+					title : "Random Game",
+					items : [
+						Ext.create("Ext.form.field.Text",{
+							fieldLabel : "Guess a number",
+							id : "myText"
+						}),	
+						Ext.create("Ext.button.Button",{
+							text : "Try",
+							id : "loginbutton",
+							listeners : {
+								click : loginButtonClicked
+							}
+						}),									
+						Ext.create("Ext.form.Label",{
+							id : "messagelabel",
+							html : "",
+							cls : "message"
+						})		
+					],
+					renderTo : Ext.getBody()
+				});
+			}
+		});
+		</script>
+	</head>	
+</html>
