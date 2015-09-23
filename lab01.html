@@ -1,0 +1,93 @@
+<html>
+	<head>
+		<script src="lib/ext-all-debug.js"></script>
+		<link rel="stylesheet" href="lib/theme-neptune-all.css">
+		<style>
+			.message{
+				color : red;
+			}
+		</style>
+		<script>
+		Ext.define("Country", {
+    	 extend : "Ext.data.Model",
+    	 fields : ["country","capital"]
+    	  });
+		Ext.define("CountryStore", {
+			extend : "Ext.data.Store",
+			model: "Country", 
+			data : [
+				{country:"India",capital:"New Delhi"},
+				{country:"Pakistan",capital:"Lahore"}
+			]
+		});
+		var countryStoreObj = Ext.create("CountryStore");
+
+		function loginButtonClicked(){
+				
+			var _country = Ext.getCmp("iCountry"); 
+			var _capital = Ext.getCmp("iCapital");
+			alert("Country-->" +_country.getValue() + " --- " + "Capital-->" +_capital.getValue());
+			countryStoreObj.add({country: _country.getValue(), capital:_capital.getValue()});
+		}
+		function loginButtonEdit(){
+				
+		//	countryStoreObj.edit = true;
+		}
+		Ext.application({
+			name : "Lab01",
+			launch : function(){
+				Ext.create("Ext.panel.Panel",{
+					title : "Add a Country",
+					items : [
+						Ext.create("Ext.form.field.Text",{
+							fieldLabel : "Country",
+							id : "iCountry"
+						}),	
+						Ext.create("Ext.form.field.Text",{
+							fieldLabel : "Capital",
+							id : "iCapital"
+						}),
+						Ext.create("Ext.button.Button",{
+							text : "Add to Grid",
+							id : "loginbutton",
+							listeners : {
+								click : loginButtonClicked
+							}
+						}),
+						Ext.create("Ext.button.Button",{
+							text : "Edit",
+							id : "loginbuttonEdit",
+							listeners : {
+								click : loginButtonEdit
+							}
+						}),
+						/* grid here*/
+
+					Ext.create("Ext.grid.Panel", {
+   					title: "This is a Grid",
+   					setModel: "rowmodel",
+   					 plugins: {
+        				ptype: 'rowediting',
+        				clicksToEdit: 1
+   							 },
+   							height: 200,
+    						width: 400,
+    				store: countryStoreObj,
+    				columns: [
+        			{ text: "Country", dataIndex: "country", editor: {xtype: "textfield"}},
+        			{ text: "Capital", dataIndex: "capital", editor: {xtype: "textfield"}, flex:1}
+
+    			]
+    			
+    			})
+
+					],
+					renderTo : Ext.getBody()
+				});
+
+				
+			}
+		});
+		</script>
+	</head>	
+</html>
