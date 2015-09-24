@@ -1,0 +1,65 @@
+<html>
+	<head>
+		<script src="lib/ext-all-debug.js"></script>
+		<link rel="stylesheet" href="lib/theme-neptune-all.css">
+		<script>
+		function loginButtonClicked(){
+		};
+		Ext.application({
+		
+			name: "Layout", 
+			launch : function()
+			{
+
+				Ext.create("Ext.panel.Panel",
+				{
+					id: "mainpanel",
+					title: "Login Page",
+					renderTo: Ext.getBody(),
+					defaults: { xtype: "button"},
+					width: 400,
+					height: 150,
+					//layout: "card",
+					activeItem: 0,
+					items: [
+						/*{text: "A", 
+						  listeners : {
+						  	click : function()
+						  	{
+						  		Ext.getCmp("mainpanel").setActiveItem(1);
+						  	}
+						  }
+						},
+						{xtype: "panel", id:"xPanel", title : "Screen 2.." ,
+						listeners : {
+							click : function()
+						  	{
+						  		Ext.getCmp("xPanel").setActiveItem(0);
+						  	}
+						  }	
+						},
+
+						{text: "C"},
+						{text: "D"}*/
+						Ext.create("Ext.form.field.Text",{
+							fieldLabel : "User Name",
+							id : "txtUserName"
+						}),	
+						Ext.create("Ext.form.field.Text",{
+							fieldLabel : "Password",
+							id : "txtPassword"
+						}),
+						Ext.create("Ext.button.Button",{
+							text : "Login",
+							id : "loginbutton",
+							listeners : {
+								click : loginButtonClicked
+							}
+						})
+					]
+				});
+			}
+		})
+		</script>
+	</head>	
+</html>
