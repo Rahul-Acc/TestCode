@@ -1,0 +1,110 @@
+<html>
+	<head>
+		<script src="lib/ext-all-debug.js"></script>
+		<link rel="stylesheet" href="lib/theme-neptune-all.css">
+		<script>
+		
+		Ext.define("AddCountryPanel",{
+			extend : "Ext.panel.Panel",
+			xtype : "addcountrypanel",
+			title : "Add Country",
+			items : [
+				{xtype:"textfield",id:"countrytext",fieldLabel:"Country"},
+				{xtype:"textfield",id:"capitaltext",fieldLabel:"Capital"},
+				{
+					xtype:"button",
+					text:"Add",
+					listeners : {
+						click : addCountry
+					}
+				}				
+			]
+		});
+		function addCountry(){
+			countryStore.add({
+				country : Ext.getCmp("countrytext").getValue(),
+				capital : Ext.getCmp("capitaltext").getValue()
+			});
+			countryStore.sync();
+		}
+		Ext.define("CountryStore",{
+			extend : "Ext.data.Store",
+			fields : ["country","capital"],
+			autoLoad : true,
+			proxy : {
+				type : "ajax",
+				//url : "/countries",
+				api : {
+					read : "/countries",
+					create : "/addCountries",
+					destroy : "/delCountries",
+					update : "/updateCountries"
+				},
+				reader : {
+					type : "json",
+					rootProperty : "globe"
+				}
+			}
+		});
+		var countryStore = Ext.create("CountryStore");
+		Ext.application({
+			name : "Ajaxstore",
+			launch : function(){
+				Ext.create("Ext.panel.Panel",{
+					renderTo : Ext.getBody(),
+					items : [
+						{
+							xtype : "addcountrypanel",
+							height:180,
+							width:400
+						},
+						{
+							xtype : "gridpanel",
+							id : "countrygrid",
+							store : countryStore,
+							height:200,width:400,
+							selModel : {
+								selType : "rowmodel",
+								mode : "MULTI"	
+							},
+							plugins : {
+								ptype : "rowediting",
+								clicksToEdit : 2
+							},
+							columns : [
+								{header:"Country",dataIndex:"country"},
+								{
+									header:"Capital",dataIndex:"capital", editor : {xtype:"textfield"}}
+							],
+							listeners : {
+								edit : function(){
+									countryStore.sync();
+								},
+								headerclick : function(){
+									// if(countryStore.getTotalCount() == 0)
+									// 	countryStore.load();
+								}
+							}							
+						},
+						{
+							xtype : "button",
+							text : "Remove selected Rows",
+							listeners : {
+								click : function(){
+								var grid = Ext.getCmp("countrygrid");
+								var sm = grid.getSelectionModel();
+								var selections = sm.getSelection();
+								for(var i=0;i<selections.length;i++){
+									countryStore.remove(selections[i]);
+								}
+								countryStore.sync();
+							  }
+							}
+						}
+					]
+				});
+			}
+		});
+		</script>
+	</head>	
+</html>
