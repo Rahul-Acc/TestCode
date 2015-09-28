@@ -1,0 +1,70 @@
+<html>
+	<head>
+		<script src="lib/ext-all-debug.js"></script>
+		<link rel="stylesheet" href="lib/theme-neptune-all.css">
+		<style>
+			.wrong{
+				color : red;
+			}
+			.correct{
+				color : blue;
+			}
+		</style>
+		<script>
+		function loginButtonClicked(){
+			var userNameText = Ext.getCmp("username");
+			var passwordText = Ext.getCmp("password");
+			var messageLabel = Ext.getCmp("messagelabel");
+			messageLabel.removeCls(["wrong","correct"]);
+			if(userNameText.getValue() == "admin" &&
+				passwordText.getValue() == "admin"){
+					messageLabel.addCls("correct");
+					messageLabel.setHtml("Logging in...");
+					userNameText.disable();
+					passwordText.disable();
+					Ext.getCmp("loginbutton").disable();
+			}
+			else{
+				messageLabel.setHtml("Invalid Credentials");
+				messageLabel.addCls("wrong");
+			}
+				
+		}
+		Ext.application({
+			name : "Lab01",
+			launch : function(){
+				Ext.create("Ext.panel.Panel",{
+					title : "Login",
+					items : [
+						{
+							xtype : "textfield",
+							fieldLabel : "User name",
+							id : "username"
+						},
+						{
+							xtype : "textfield",
+							fieldLabel : "Password",
+							inputType : "password",
+							id : "password"
+						},	
+						{
+							xtype : "button",
+							text : "Login",
+							id : "loginbutton",
+							listeners : {
+								click : loginButtonClicked
+							}
+						},									
+						{
+							xtype : "label",
+							id : "messagelabel",
+							html : ""
+						}		
+					],
+					renderTo : Ext.getBody()
+				});
+			}
+		});
+		</script>
+	</head>	
+</html>

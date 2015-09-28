@@ -1,0 +1,66 @@
+<html>
+	<head>
+		<script src="lib/ext-all-debug.js"></script>
+		<link rel="stylesheet" href="lib/theme-neptune-all.css">
+		<script>
+		function getInfo(){
+			var countryValue = Ext.getCmp("countrytext").getValue();
+			var loadMask = Ext.create("Ext.LoadMask",{
+				target : Ext.getCmp("countrytext")
+			});
+			Ext.Ajax.request({
+				url : "/info",
+				method : "GET",
+				params : {
+					country : countryValue
+				},
+				success : function(response){
+					loadMask.hide();
+					var output = response.responseText;
+					output = Ext.JSON.decode(output);
+					Ext.getCmp("capitallabel").setHtml(output.capital);
+					Ext.getCmp("continentlabel").setHtml(output.continent);
+					Ext.getCmp("populationlabel").setHtml(output.population);
+				}
+			});
+			loadMask.show();
+		}	
+		Ext.application({
+			name : "AJAX",
+			launch : function(){
+				Ext.create("Ext.panel.Panel",{
+					title : "AJAX",
+					items : [
+						{
+							xtype : "textfield",
+							fieldLabel : "Country",
+							id : "countrytext"
+						},
+						{
+							xtype : "button",
+							text : "Get Info",
+							listeners : {
+								click : getInfo
+							}
+						},
+						{
+							xtype : "label",
+							id : "capitallabel"
+						},
+						{
+							xtype : "label",
+							id : "continentlabel"
+						},
+						{
+							xtype : "label",
+							id : "populationlabel"
+						}
+						
+					],
+					renderTo : Ext.getBody()
+				});
+			}
+		});
+		</script>
+	</head>	
+</html>
